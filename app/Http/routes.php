@@ -7,7 +7,11 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth.checkrole', 'as'=>'admin.']
     Route::get('categorias/edit/{id}',['as'=> 'categorias.edit','uses'=>'CategoriasController@edit']);
     Route::post('categorias/update/{id}',['as'=> 'categorias.update','uses'=>'CategoriasController@update']);
 
-    
+    Route::get('clientes',['as'=> 'clientes.index','uses'=>'ClientesController@index']);
+    Route::get('clientes/create',['as'=> 'clientes.create','uses'=>'ClientesController@create']);
+    Route::post('clientes/store',['as'=> 'clientes.store','uses'=>'ClientesController@store']);
+    Route::get('clientes/edit/{id}',['as'=> 'clientes.edit','uses'=>'ClientesController@edit']);
+    Route::post('clientes/update/{id}',['as'=> 'clientes.update','uses'=>'ClientesController@update']);
 
     Route::get('produtos',['as'=> 'produtos.index','uses'=>'ProdutosController@index']);
     Route::get('produtos/create',['as'=> 'produtos.create','uses'=>'ProdutosController@create']);

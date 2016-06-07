@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h3>Nova Categoria</h3>
+        <h3>Novo Cliente</h3>
         @if($errors->any())
             <ul class="alert">
                 @foreach($errors->all() as $error)
@@ -12,13 +12,13 @@
                 @endforeach
             </ul>
         @endif
-        {!! Form::open(['route' => 'admin.categorias.store', 'class'=>'form']) !!}
+        {!! Form::open(['route' => 'admin.clientes.store', 'class'=>'form']) !!}
             <div class="form-group">
                 {!! Form::label('Name', 'Nome:') !!}
                 {!! Form::text('name', null, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::submit('Criar Categoria', ['class' => 'btn btn-primary']) !!}
+                {!! Form::submit('Criar Clientes', ['class' => 'btn btn-primary']) !!}
             </div>
 
         {!! Form::close() !!}

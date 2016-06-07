@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h3>Editando Categoria</h3>
+        <h3>Editando Cliente</h3>
         @if($errors->any())
             <ul class="alert">
                 @foreach($errors->all() as $error)
