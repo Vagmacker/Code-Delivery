@@ -6,7 +6,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodeDelivery\Repositories\CategoriaRepository;
 use CodeDelivery\Models\Categoria;
-use CodeDelivery\Validators\CategoriaValidator;
+//use CodeDelivery\Validators\CategoriaValidator;
 
 /**
  * Class CategoriaRepositoryEloquent
@@ -14,6 +14,11 @@ use CodeDelivery\Validators\CategoriaValidator;
  */
 class CategoriaRepositoryEloquent extends BaseRepository implements CategoriaRepository
 {
+    public function lists($column, $key = null)
+    {
+        return $this->model->lists('name', 'id');
+    }
+
     /**
      * Specify Model class name
      *
@@ -23,7 +28,6 @@ class CategoriaRepositoryEloquent extends BaseRepository implements CategoriaRep
     {
         return Categoria::class;
     }
-
     
 
     /**

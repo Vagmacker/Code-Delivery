@@ -35,6 +35,7 @@
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
 					<li><a href="{{route('admin.categorias.index')}}">Categorias</a></li>
+					<li><a href="{{route('admin.produtos.index')}}">Produtos</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

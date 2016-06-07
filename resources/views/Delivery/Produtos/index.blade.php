@@ -8,8 +8,10 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Nome/th>
-                    <th>Produto</th>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Categoria</th>
+                    <th>Preço</th>
                     <th>Ação</th>
                 </tr>
             </thead>
@@ -17,11 +19,13 @@
             <tbody>
             @foreach($produtos as $produto)
                 <tr>
-                    <td>{{$produtos->nome}}</td>
-                    <td>{{$produtos->categoria_id}}</td>
+                    <td>{{$produto->id}}</td>
+                    <td>{{$produto->nome}}</td>
+                    <td>{{$produto->categoria->name}}</td>
+                    <td>{{$produto->preco}}</td>
                     <td>
-                        <a href="{{route('admin.produtos.edit', ['id' =>$produtos->id])}}" class="btn btn-default btn-sm">Editar</a>
-                        <a href="{{route('admin.produtos.edit', ['id' =>$produtos->id])}}" class="btn btn-danger btn-sm">Remover</a>
+                        <a href="{{route('admin.produtos.edit', ['id' =>$produto->id])}}" class="btn btn-default btn-sm">Editar</a>
+                        <a href="{{route('admin.produtos.destroy', ['id' =>$produto->id])}}" class="btn btn-danger btn-sm">Remover</a>
 
                     </td>
                 </tr>

@@ -24,7 +24,10 @@ class AdminProdutoRequest extends Request
     public function rules()
     {
         return [
-            'nome' => 'required|min:3'
+            'nome' => 'required|min:3',
+            'descricao' => 'required',
+            'preco' => 'required',
+            'categoria_id' => 'required'
         ];
     }
 }
