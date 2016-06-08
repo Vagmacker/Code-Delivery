@@ -15,11 +15,11 @@
         {!! Form::open(['route' => 'admin.clientes.store', 'class'=>'form']) !!}
         <div class="form-group">
             {!! Form::label('Name', 'Nome:') !!}
-            {!! Form::text('user', null, ['class' => 'form-control']) !!}
+            {!! Form::text('user[name]', null, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('Email', 'Email:') !!}
-            {!! Form::text('user', null, ['class' => 'form-control']) !!}
+            {!! Form::text('user[email]', null, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('telefone', 'Telefone:') !!}
