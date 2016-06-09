@@ -19,5 +19,7 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth.checkrole', 'as'=>'admin.']
     Route::get('produtos/edit/{id}',['as'=> 'produtos.edit','uses'=>'ProdutosController@edit']);
     Route::post('produtos/update/{id}',['as'=> 'produtos.update','uses'=>'ProdutosController@update']);
     Route::get('produtos/destroy/{id}',['as'=> 'produtos.destroy','uses'=>'ProdutosController@destroy']);
+
+    Route::get('pedidos',['as'=> 'pedidos.index','uses'=>'PedidosController@index']);
 });
 

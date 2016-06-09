@@ -14,7 +14,7 @@ class Pedidos extends Model implements Transformable
         'cliente_id',
         'entregador_id',
         'total',
-        'stutus'
+        'status'
     ];
 
     public function items()

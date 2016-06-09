@@ -10,7 +10,7 @@ class Cliente extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillalbe = [
+    protected $fillable = [
         'user_id',
         'numero',
         'endereco',

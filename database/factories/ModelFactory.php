@@ -44,4 +44,17 @@ $factory->define(CodeDelivery\Models\Cliente::class, function(Faker\Generator $f
     ];
 });
 
+$factory->define(CodeDelivery\Models\Pedidos::class, function(Faker\Generator $faker) {
+    return [
+        'cliente_id' => rand(1,10),
+        'total' => rand(50,100),
+        'status' => 0
+    ];
+});
+
+$factory->define(CodeDelivery\Models\PedidosItem::class, function(Faker\Generator $faker) {
+    return [
+        
+    ];
+});
 
