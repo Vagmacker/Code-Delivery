@@ -29,7 +29,7 @@ class PedidosController extends Controller
 
     public function index()
     {
-        $pedidos = $this->pedidosRepository->all();
+        $pedidos = $this->pedidosRepository->paginate(10);
         return view('Delivery.Pedidos.index', compact('pedidos'));
     }
 

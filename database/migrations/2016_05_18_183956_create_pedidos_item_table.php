@@ -12,7 +12,7 @@ class CreatePedidosItemTable extends Migration
      */
     public function up()
     {
-        Schema::create('pedidosItem', function (Blueprint $table) {
+        Schema::create('pedidos_items', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('produto_id')->unsigned();
             $table->foreign('produto_id')->references('id')->on('produtos');
@@ -31,6 +31,6 @@ class CreatePedidosItemTable extends Migration
      */
     public function down()
     {
-        Schema::drop('pedidosItem');
+        Schema::drop('pedidos_items');
     }
 }

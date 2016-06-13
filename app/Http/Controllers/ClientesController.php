@@ -25,7 +25,7 @@ class ClientesController extends Controller
 
     public function index()
     {
-        $clientes = $this->repository->paginate(5);
+        $clientes = $this->repository->paginate(10);
 
         return view('Delivery.Clientes.index', compact('clientes'));
     }

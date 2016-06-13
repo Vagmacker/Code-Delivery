@@ -8,6 +8,9 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Total</th>
+                    <th>Data</th>
+                    <th>Itens</th>
                     <th>Ação</th>
                 </tr>
             </thead>
@@ -15,7 +18,16 @@
             <tbody>
             @foreach($pedidos as $pedido)
                 <tr>
-                    <td>{{$pedido->id}}</td>
+                    <td># {{$pedido->id}}</td>
+                    <td>{{$pedido->total}}</td>
+                    <td>{{$pedido->created_at}}</td>
+                    <td>
+                        <ul>
+                            @foreach($pedido->items as $item)
+                                <li>{{$item->produto->nome}}</li>
+                            @endforeach
+                        </ul>
+                    </td>
                     <td>
                         <a href="#" class="btn btn-default btn-sm">Editar</a>
                     </td>
@@ -24,6 +36,6 @@
             </tbody>
         </table>
 
-        {!! $pedido->render() !!}
+        {!! $pedidos->render() !!}
     </div>
 @endsection
