@@ -3,6 +3,7 @@
 namespace CodeDelivery\Http\Controllers;
 
 use CodeDelivery\Repositories\PedidosRepository;
+use CodeDelivery\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 use CodeDelivery\Http\Requests;
@@ -71,9 +72,12 @@ class PedidosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, UserRepository $userRepository)
     {
-        //
+        $status = [0=>'Pendente', 1=>'A caminho', 2=>'Entregue', 3=>'Cancelado'];
+        $pedidos = $this->pedidosRepository->find($id);
+        $entregador = $userRepository->getEntregador();
+        return view('Delivery.Pedidos.edit', compact('pedidos', 'status', 'entregador'));
     }
 
     /**
@@ -85,7 +89,10 @@ class PedidosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $all = $request->all();
+        $this->pedidosRepository->update($all, $id);
+
+        return redirect()->route('admin.pedidos.index');
     }
 
     /**

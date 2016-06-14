@@ -11,6 +11,8 @@
                     <th>Total</th>
                     <th>Data</th>
                     <th>Itens</th>
+                    <th>Entregador</th>
+                    <th>Status</th>
                     <th>Ação</th>
                 </tr>
             </thead>
@@ -29,7 +31,17 @@
                         </ul>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-default btn-sm">Editar</a>
+                        @if($pedido->entregador)
+                            {{$pedido->entregador->name}}
+                        @else
+                            --
+                        @endif
+                    </td>
+                    <td>
+                        {{$pedido->status}}
+                    </td>
+                    <td>
+                        <a href="{{route('admin.pedidos.edit', ['id'=>$pedido->id])}}" class="btn btn-default btn-sm">Editar</a>
                     </td>
                 </tr>
             @endforeach

@@ -17,6 +17,10 @@ class Pedidos extends Model implements Transformable
         'status'
     ];
 
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class);
+    }
     public function items()
     {
         return $this->hasMany(PedidosItem::class);
@@ -24,7 +28,12 @@ class Pedidos extends Model implements Transformable
 
     public function entregador()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'entregador_id', 'id');
+    }
+
+    public function produtos()
+    {
+        return $this->hasMany(Produtos::class);
     }
 
 }

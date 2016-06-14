@@ -17,7 +17,7 @@ class PedidosItem extends Model implements Transformable
         'qtd'
     ];
 
-    public function produtos()
+    public function produto()
     {
         return $this->belongsTo(Produtos::class);
     }
