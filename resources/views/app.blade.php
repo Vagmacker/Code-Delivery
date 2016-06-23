@@ -37,6 +37,7 @@
 					<li><a href="{{route('admin.categorias.index')}}">Categorias</a></li>
 					<li><a href="{{route('admin.produtos.index')}}">Produtos</a></li>
 					<li><a href="{{route('admin.clientes.index')}}">Clientes</a></li>
+					<li><a href="{{route('admin.cupoms.index')}}">Cupons</a></li>
 					<li><a href="{{route('admin.pedidos.index')}}">Pedidos</a></li>
 				</ul>
 

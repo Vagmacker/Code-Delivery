@@ -23,5 +23,12 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth.checkrole', 'as'=>'admin.']
     Route::get('pedidos',['as'=> 'pedidos.index','uses'=>'PedidosController@index']);
     Route::get('pedidos/edit/{id}',['as'=> 'pedidos.edit','uses'=>'PedidosController@edit']);
     Route::post('pedidos/update/{id}',['as'=> 'pedidos.update','uses'=>'PedidosController@update']);
+    
+    Route::get('cupoms', ['as'=>'cupoms.index', 'uses'=>'CupomsController@index']);
+    Route::get('cupoms/create',['as'=> 'cupoms.create','uses'=>'CupomsController@create']);
+    Route::post('cupoms/store',['as'=> 'cupoms.store','uses'=>'CupomsController@store']);
 });
+
+Route::resource('customer', 'CheckoutController');
+
 

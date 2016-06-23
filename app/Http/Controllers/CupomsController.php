@@ -2,19 +2,19 @@
 
 namespace CodeDelivery\Http\Controllers;
 
-use CodeDelivery\Repositories\PedidosRepository;
-use CodeDelivery\Repositories\UserRepository;
+use CodeDelivery\Http\Requests\AdminCupomRequest;
+use CodeDelivery\Repositories\CupomRepository;
 use Illuminate\Http\Request;
 
 use CodeDelivery\Http\Requests;
 use CodeDelivery\Http\Controllers\Controller;
 
-class PedidosController extends Controller
+class CupomsController extends Controller
 {
     /**
-     * @var PedidosRepository
+     * @var CupomRepository
      */
-    private $pedidosRepository;
+    private $cupomRepository;
 
     /**
      * Display a listing of the resource.
@@ -22,16 +22,16 @@ class PedidosController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public  function __construct(PedidosRepository $pedidosRepository)
+    public function __construct(CupomRepository $cupomRepository)
     {
 
-        $this->pedidosRepository = $pedidosRepository;
+        $this->cupomRepository = $cupomRepository;
     }
 
     public function index()
     {
-        $pedidos = $this->pedidosRepository->paginate(6);
-        return view('Delivery.Pedidos.index', compact('pedidos'));
+        $cupoms = $this->cupomRepository->paginate(10);
+        return view('Delivery.Cupoms.index', compact('cupoms'));
     }
 
     /**
@@ -41,7 +41,7 @@ class PedidosController extends Controller
      */
     public function create()
     {
-        //
+        return view('Delivery.Cupoms.create');
     }
 
     /**
@@ -50,9 +50,12 @@ class PedidosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminCupomRequest $request)
     {
-        //
+        $data = $request->all();
+        $this->cupomRepository->create($data);
+
+        return redirect()->route('admin.cupoms.index');
     }
 
     /**
@@ -72,12 +75,9 @@ class PedidosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, UserRepository $userRepository)
+    public function edit($id)
     {
-        $status = [0=>'Pendente', 1=>'A caminho', 2=>'Entregue', 3=>'Cancelado'];
-        $pedidos = $this->pedidosRepository->find($id);
-        $entregador = $userRepository->getEntregador();
-        return view('Delivery.Pedidos.edit', compact('pedidos', 'status', 'entregador'));
+        //
     }
 
     /**
@@ -89,10 +89,7 @@ class PedidosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $all = $request->all();
-        $this->pedidosRepository->update($all, $id);
-
-        return redirect()->route('admin.pedidos.index');
+        //
     }
 
     /**
