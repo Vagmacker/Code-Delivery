@@ -21,5 +21,5 @@ class Produtos extends Model implements Transformable
     {
         return $this->belongsTo(Categoria::class);
     }
-
+    
 }

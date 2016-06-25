@@ -1,4 +1,4 @@
-@extends('app)
+@extends('app')
 
 @section('content')
     <div class="container">
@@ -32,7 +32,7 @@
                             <td>
                                 <select class="form-control" name="items[0][produto_id]">
                                     @foreach($produtos as $produto)
-                                        <option value="{{$p->id}}" data-preco="{{$produto->preco}}">
+                                        <option value="{{$produto->id}}" data-preco="{{$produto->preco}}">
                                             {{$produto->nome}} --- {{$produto->preco}}
                                         </option>
                                     @endforeach
