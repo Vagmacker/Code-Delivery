@@ -54,7 +54,8 @@ class CheckoutController extends Controller
      */
     public function create()
     {
-        $produtos = $this->produtosRepository->lists('id','nome', 'preco');
+        //$produtos = $this->produtosRepository->lists('id','nome', 'preco');
+        $produtos = $this->produtosRepository->all();
         return view('customer.pedidos.create', compact('produtos'));
     }
 

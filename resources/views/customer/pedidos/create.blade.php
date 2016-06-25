@@ -18,7 +18,8 @@
               <div class="form-group">
                 <label>Total: </label>
                 <p id="total"></p>
-                <a href="#" class="bt btn-default">Novo Item</a>
+                <a href="#" class="btn btn-default">Novo Item</a>
+                <br>
                 <br>
                 <table class="table table-bordered">
                     <thead>
