@@ -1,5 +1,12 @@
 <?php
 
+Route::get('/', function (){
+   return view('welcome');
+});
+Route::get('/home', function (){
+   return view('welcome');
+});
+
 Route::group(['prefix'=>'admin', 'middleware'=>'auth.checkrole', 'as'=>'admin.'], function() {
     Route::get('categorias',['as'=> 'categorias.index','uses'=>'CategoriasController@index']);
     Route::get('categorias/create',['as'=> 'categorias.create','uses'=>'CategoriasController@create']);

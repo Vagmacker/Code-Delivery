@@ -5,10 +5,12 @@ namespace CodeDelivery\Http\Controllers;
 use CodeDelivery\Repositories\PedidosRepository;
 use CodeDelivery\Repositories\ProdutosRepository;
 use CodeDelivery\Repositories\UserRepository;
+use CodeDelivery\Services\PedidosService;
 use Illuminate\Http\Request;
 
 use CodeDelivery\Http\Requests;
 use CodeDelivery\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
@@ -24,17 +26,23 @@ class CheckoutController extends Controller
      * @var PedidosRepository
      */
     private $pedidosRepository;
+    /**
+     * @var PedidosService
+     */
+    private $service;
 
     public function __construct(
         PedidosRepository $pedidosRepository,
         UserRepository $userRepository,
-        ProdutosRepository $produtosRepository
+        ProdutosRepository $produtosRepository,
+        PedidosService $service
     )
     {
 
         $this->produtosRepository = $produtosRepository;
         $this->userRepository = $userRepository;
         $this->pedidosRepository = $pedidosRepository;
+        $this->service = $service;
     }
 
     /**
@@ -44,7 +52,12 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        //
+        $clienteId = $this->userRepository->find(Auth::user()->id)->cliente->id;
+        $pedidos = $this->pedidosRepository->scopeQuery(function ($query) use ($clienteId){
+            return $query->where('cliente_id', '=', $clienteId);
+        })->paginate();
+
+        return view('customer.pedidos.index', compact('pedidos'));
     }
 
     /**
@@ -67,8 +80,14 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $clienteId = $this->userRepository->find(Auth::user()->id)->cliente->id;
+        $data['cliente_id'] = $clienteId;
+        $this->service->create($data);
+
+        return redirect()->route('customer.index');
     }
+
 
     /**
      * Display the specified resource.
