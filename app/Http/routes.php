@@ -1,13 +1,10 @@
 <?php
 
-Route::get('/', function (){
-   return view('welcome');
-});
 Route::get('/home', function (){
    return view('welcome');
 });
 
-Route::group(['prefix'=>'admin', 'middleware'=>'auth.checkrole', 'as'=>'admin.'], function() {
+Route::group(['prefix'=>'admin', 'middleware'=>'auth.checkrole:admin', 'as'=>'admin.'], function() {
     Route::get('categorias',['as'=> 'categorias.index','uses'=>'CategoriasController@index']);
     Route::get('categorias/create',['as'=> 'categorias.create','uses'=>'CategoriasController@create']);
     Route::post('categorias/store',['as'=> 'categorias.store','uses'=>'CategoriasController@store']);
@@ -40,5 +37,15 @@ Route::resource('customer', 'CheckoutController');
 
 Route::post('oauth/access_token', function() {
     return Response::json(Authorizer::issueAccessToken());
+});
+
+Route::group(['prefix'=>'api', 'middleware'=>'oauth', 'as'=>'api.'], function(){
+    Route::get('teste', function(){
+       return [
+           'id'=> 1,
+           'name' => 'Joao',
+           'total'=> 10
+       ];
+    });
 });
 

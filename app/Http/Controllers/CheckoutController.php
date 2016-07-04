@@ -43,6 +43,7 @@ class CheckoutController extends Controller
         $this->userRepository = $userRepository;
         $this->pedidosRepository = $pedidosRepository;
         $this->service = $service;
+        //$this->middleware('auth.checkrole:client');
     }
 
     /**
