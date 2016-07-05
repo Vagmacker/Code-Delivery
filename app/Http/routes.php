@@ -48,5 +48,12 @@ Route::group(['prefix'=>'api', 'middleware'=>'oauth', 'as'=>'api.'], function(){
     Route::group(['prefix'=>'deliveryman','middleware'=>'oauth.checkrole:entregador','as'=>'deliveryman.'], function(){
         
     });
+
+    Route::get('teste', function(){
+       return [
+          'name'=> 'Joao',
+           'idade'=> 12
+       ];
+    });
 });
 
