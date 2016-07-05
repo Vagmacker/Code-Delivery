@@ -72,6 +72,7 @@ class PedidosService
             }
             $pedido->save();
             \DB::commit();
+            return $pedido;
         } catch (\Exception $e){
             \DB::rollback();
             throw $e;

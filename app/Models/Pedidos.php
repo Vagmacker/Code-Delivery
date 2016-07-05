@@ -21,6 +21,10 @@ class Pedidos extends Model implements Transformable
     {
         return $this->belongsTo(Cliente::class);
     }
+    public function cupom()
+    {
+        return $this->belongsTo(Cupom::class);
+    }
     public function items()
     {
         return $this->hasMany(PedidosItem::class);

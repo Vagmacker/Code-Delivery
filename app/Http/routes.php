@@ -40,12 +40,13 @@ Route::post('oauth/access_token', function() {
 });
 
 Route::group(['prefix'=>'api', 'middleware'=>'oauth', 'as'=>'api.'], function(){
-    Route::get('teste', function(){
-       return [
-           'id'=> 1,
-           'name' => 'Joao',
-           'total'=> 10
-       ];
+
+    Route::group(['prefix'=>'client', 'middleware'=>'oauth.checkrole:cliente', 'as'=>'cliente.'], function(){
+        Route::resource('pedidos', 'Api\ClienteCheckoutController', ['except'=>['create','edit', 'destroy']]);
+    });
+
+    Route::group(['prefix'=>'deliveryman','middleware'=>'oauth.checkrole:entregador','as'=>'deliveryman.'], function(){
+        
     });
 });
 

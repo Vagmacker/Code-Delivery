@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeDelivery\Http\Controllers;
+namespace CodeDelivery\Http\Controllers\Api;
 
 use CodeDelivery\Repositories\PedidosRepository;
 use CodeDelivery\Repositories\ProdutosRepository;
@@ -10,14 +10,10 @@ use Illuminate\Http\Request;
 
 use CodeDelivery\Http\Requests;
 use CodeDelivery\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
-class CheckoutController extends Controller
+class ClienteCheckoutController extends Controller
 {
-    /**
-     * @var ProdutosRepository
-     */
-    private $produtosRepository;
     /**
      * @var UserRepository
      */
@@ -27,23 +23,26 @@ class CheckoutController extends Controller
      */
     private $pedidosRepository;
     /**
+     * @var ProdutosRepository
+     */
+    private $produtosRepository;
+    /**
      * @var PedidosService
      */
     private $service;
 
     public function __construct(
-        PedidosRepository $pedidosRepository,
         UserRepository $userRepository,
+        PedidosRepository $pedidosRepository,
         ProdutosRepository $produtosRepository,
         PedidosService $service
     )
     {
 
-        $this->produtosRepository = $produtosRepository;
         $this->userRepository = $userRepository;
         $this->pedidosRepository = $pedidosRepository;
+        $this->produtosRepository = $produtosRepository;
         $this->service = $service;
-        $this->middleware('auth.checkrole:cliente');
     }
 
     /**
@@ -53,12 +52,13 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        $clienteId = $this->userRepository->find(Auth::user()->id)->cliente->id;
-        $pedidos = $this->pedidosRepository->scopeQuery(function ($query) use ($clienteId){
+        $id = Authorizer::getResourceOwnerId();
+        $clienteId = $this->userRepository->find($id)->cliente->id;
+        $pedidos = $this->pedidosRepository->with('items')->scopeQuery(function ($query) use ($clienteId){
             return $query->where('cliente_id', '=', $clienteId);
         })->paginate();
 
-        return view('customer.pedidos.index', compact('pedidos'));
+        return $pedidos;
     }
 
     /**
@@ -68,9 +68,7 @@ class CheckoutController extends Controller
      */
     public function create()
     {
-        //$produtos = $this->produtosRepository->lists('id','nome', 'preco');
-        $produtos = $this->produtosRepository->all();
-        return view('customer.pedidos.create', compact('produtos'));
+        //
     }
 
     /**
@@ -82,13 +80,13 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $clienteId = $this->userRepository->find(Auth::user()->id)->cliente->id;
+        $id = Authorizer::getResourceOwnerId();
+        $clienteId = $this->userRepository->find($id)->cliente->id;
         $data['cliente_id'] = $clienteId;
-        $this->service->create($data);
-
-        return redirect()->route('customer.index');
+        $o = $this->service->create($data);
+        $o = $this->pedidosRepository->with('items')->find($o->id);
+        return $o;
     }
-
 
     /**
      * Display the specified resource.
@@ -98,7 +96,12 @@ class CheckoutController extends Controller
      */
     public function show($id)
     {
-        //
+        $o = $this->pedidosRepository->with(['cliente', 'items','cupom'])->find($id);
+        $o->items->each(function($item){
+           $item->produto;
+        });
+
+        return $o;
     }
 
     /**
