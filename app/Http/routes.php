@@ -49,12 +49,7 @@ Route::group(['prefix'=>'api', 'middleware'=>'oauth', 'as'=>'api.'], function(){
         Route::resource('pedidos', 'Api\EntregadorCheckoutController', ['except'=>['create','edit', 'destroy', 'store']]);
     });
 
-    Route::get('teste', function(){
-       return [
-          'name'=> 'Joao',
-           'idade'=> 12
-       ];
-    });
+    Route::resource('authenticated', 'TesteController');
 
 });
 

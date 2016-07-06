@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 use CodeDelivery\Http\Requests;
 use CodeDelivery\Http\Controllers\Controller;
+use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
 class EntregadorCheckoutController extends Controller
 {
