@@ -11,7 +11,7 @@ class OAuthClientSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('delivery.oauth_clients')->insert([
+        DB::table('oauth_clients')->insert([
             [
                 'id' => 'appid01',
                 'secret' => 'secret',

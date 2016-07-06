@@ -46,7 +46,7 @@ Route::group(['prefix'=>'api', 'middleware'=>'oauth', 'as'=>'api.'], function(){
     });
 
     Route::group(['prefix'=>'deliveryman','middleware'=>'oauth.checkrole:entregador','as'=>'deliveryman.'], function(){
-        
+        Route::resource('pedidos', 'Api\EntregadorCheckoutController', ['except'=>['create','edit', 'destroy', 'store']]);
     });
 
     Route::get('teste', function(){
@@ -55,5 +55,6 @@ Route::group(['prefix'=>'api', 'middleware'=>'oauth', 'as'=>'api.'], function(){
            'idade'=> 12
        ];
     });
+
 });
 
