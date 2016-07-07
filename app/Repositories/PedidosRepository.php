@@ -10,5 +10,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface PedidosRepository extends RepositoryInterface
 {
-    public function getId($id, $entregador);
+    public function getOwnerOrder($id, $entregador);
 }

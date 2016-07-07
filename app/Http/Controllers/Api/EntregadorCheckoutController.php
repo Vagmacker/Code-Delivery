@@ -83,7 +83,7 @@ class EntregadorCheckoutController extends Controller
     public function show($id)
     {
         $entregador = Authorizer::getResourceOwnerId();
-        $result = $this->pedidosRepository->getId($id, $entregador);
+        $result = $this->pedidosRepository->getOwnerOrder($id, $entregador);
     }
 
     /**

@@ -16,7 +16,7 @@ use CodeDelivery\Models\Pedidos;
 class PedidosRepositoryEloquent extends BaseRepository implements PedidosRepository
 {
 
-    public function getId($id, $entregador)
+    public function getOwnerOrder($id, $entregador)
     {
         $result = $this->with(['items', 'cliente','cupom'])->findWhere([
             'id'=>$id,
