@@ -47,6 +47,7 @@ Route::group(['prefix'=>'api', 'middleware'=>'oauth', 'as'=>'api.'], function(){
 
     Route::group(['prefix'=>'deliveryman','middleware'=>'oauth.checkrole:entregador','as'=>'deliveryman.'], function(){
         Route::resource('pedidos', 'Api\EntregadorCheckoutController', ['except'=>['create','edit', 'destroy', 'store']]);
+        Route::patch('pedidos/{id}/update-status', ['uses'=>'Api\EntregadorCheckoutController@update', 'as'=>'pedidos.update_status']);
     });
 
     Route::resource('authenticated', 'TesteController');

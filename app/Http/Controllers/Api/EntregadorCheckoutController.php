@@ -82,7 +82,8 @@ class EntregadorCheckoutController extends Controller
      */
     public function show($id)
     {
-        //
+        $entregador = Authorizer::getResourceOwnerId();
+        $result = $this->pedidosRepository->getId($id, $entregador);
     }
 
     /**
@@ -105,7 +106,14 @@ class EntregadorCheckoutController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $entregador = Authorizer::getResourceOwnerId();
+        $status = $request->get('status');
+        $pedidos = $this->service->update($id, $entregador, $status);
+        if($pedidos) {
+            return $pedidos;
+        }
+        
+        abort(400, 'Pedido não encontrado');
     }
 
     /**

@@ -9,6 +9,7 @@
 namespace CodeDelivery\Services;
 
 
+use CodeDelivery\Models\Pedidos;
 use CodeDelivery\Repositories\CupomRepository;
 use CodeDelivery\Repositories\PedidosRepository;
 use CodeDelivery\Repositories\ProdutosRepository;
@@ -79,4 +80,17 @@ class PedidosService
         }
 
     }
+
+    public function update($id, $entregador, $status)
+    {
+        $pedidos = $this->pedidosRepository->getId($id, $entregador);
+
+        if($pedidos instanceof Pedidos){
+            $pedidos->status = $status;
+            $pedidos->save();
+            return $pedidos;
+        }
+        return false;
+    }
+
 }

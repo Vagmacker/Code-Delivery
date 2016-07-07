@@ -2,11 +2,12 @@
 
 namespace CodeDelivery\Repositories;
 
+use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodeDelivery\Repositories\PedidosRepository;
 use CodeDelivery\Models\Pedidos;
-use CodeDelivery\Validators\PedidosValidator;
+//use CodeDelivery\Validators\PedidosValidator;
 
 /**
  * Class PedidosRepositoryEloquent
@@ -14,6 +15,25 @@ use CodeDelivery\Validators\PedidosValidator;
  */
 class PedidosRepositoryEloquent extends BaseRepository implements PedidosRepository
 {
+
+    public function getId($id, $entregador)
+    {
+        $result = $this->with(['items', 'cliente','cupom'])->findWhere([
+            'id'=>$id,
+            'entregador_id'=>$entregador
+        ]);
+        
+
+        $result = $result->first();
+        if($result) {
+            $result->items->each(function ($item) {
+                $item->produto;
+            });
+        }
+        
+        return $result;
+    }
+
     /**
      * Specify Model class name
      *

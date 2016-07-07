@@ -31,11 +31,11 @@ class TesteController extends Controller
     {
         $id = Authorizer::getResourceOwnerId();
         $clienteId = $this->userRepository->find($id)->cliente->id;
-        $pedidos = $this->userRepository->scopeQuery(function ($query) use ($clienteId){
+        $teste = $this->userRepository->scopeQuery(function ($query) use ($clienteId){
             return $query->where('id', '=', $clienteId);
-        })->paginate();
+        })->all();
 
-        return $pedidos;
+        return $teste;
     }
 
     /**
