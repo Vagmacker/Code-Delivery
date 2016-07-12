@@ -83,7 +83,7 @@ class PedidosService
 
     public function update($id, $entregador, $status)
     {
-        $pedidos = $this->pedidosRepository->getId($id, $entregador);
+        $pedidos = $this->pedidosRepository->getOwnerOrder($id, $entregador);
 
         if($pedidos instanceof Pedidos){
             $pedidos->status = $status;
