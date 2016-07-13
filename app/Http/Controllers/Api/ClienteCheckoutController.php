@@ -2,6 +2,7 @@
 
 namespace CodeDelivery\Http\Controllers\Api;
 
+use CodeDelivery\Http\Requests\CheckoutRequest;
 use CodeDelivery\Repositories\PedidosRepository;
 use CodeDelivery\Repositories\ProdutosRepository;
 use CodeDelivery\Repositories\UserRepository;
@@ -78,7 +79,7 @@ class ClienteCheckoutController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CheckoutRequest $request)
     {
         $data = $request->all();
         $id = Authorizer::getResourceOwnerId();
