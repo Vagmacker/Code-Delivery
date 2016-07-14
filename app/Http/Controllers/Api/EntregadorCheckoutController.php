@@ -26,6 +26,8 @@ class EntregadorCheckoutController extends Controller
      */
     private $service;
 
+    private $with = ['cliente', 'cupom', 'items'];
+
     public function __construct(
         PedidosRepository $pedidosRepository,
         UserRepository $userRepository,
@@ -46,7 +48,7 @@ class EntregadorCheckoutController extends Controller
     public function index()
     {
         $id = Authorizer::getResourceOwnerId();
-        $pedidos = $this->pedidosRepository->with('items')->scopeQuery(function ($query) use ($id){
+        $pedidos = $this->pedidosRepository->skipPresenter(false)->with($this->with)->scopeQuery(function ($query) use ($id){
             return $query->where('entregador_id', '=', $id);
         })->paginate();
 
@@ -83,7 +85,7 @@ class EntregadorCheckoutController extends Controller
     public function show($id)
     {
         $entregador = Authorizer::getResourceOwnerId();
-        $result = $this->pedidosRepository->getOwnerOrder($id, $entregador);
+        $result = $this->pedidosRepository->skipPresenter(false)->getOwnerOrder($id, $entregador);
     }
 
     /**
@@ -110,7 +112,7 @@ class EntregadorCheckoutController extends Controller
         $status = $request->get('status');
         $pedidos = $this->service->update($id, $entregador, $status);
         if($pedidos) {
-            return $pedidos;
+            return $this->pedidosRepository->find($pedidos->id);
         }
         
         abort(400, 'Pedido não encontrado');
