@@ -85,7 +85,7 @@ class ClienteCheckoutController extends Controller
     {
         $data = $request->all();
         $id = Authorizer::getResourceOwnerId();
-        $clienteId = $this->userRepository->find($id)->cliente->id;
+        $clienteId = $this->userRepository->skipPresenter()->find($id)->cliente->id;
         $data['cliente_id'] = $clienteId;
         $o = $this->service->create($data);
         $o = $this->pedidosRepository->skipPresenter(false)->with($this->with)->find($o->id);

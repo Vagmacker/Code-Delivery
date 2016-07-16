@@ -31,6 +31,9 @@ class PedidosItemTransformer extends TransformerAbstract
 
     public function includeProdutos(PedidosItem $model)
     {
+        if(!$model->produtos){
+            return null;
+        }
         return $this->item($model->produtos, new ProdutosTransformer());
     }
 }
