@@ -30,7 +30,7 @@ class TesteController extends Controller
     public function index()
     {
         $id = Authorizer::getResourceOwnerId();
-        $clienteId = $this->userRepository->find($id)->cliente->id;
+        $clienteId = $this->userRepository->skipPresenter()->find($id)->cliente->id;
         $teste = $this->userRepository->scopeQuery(function ($query) use ($clienteId){
             return $query->where('id', '=', $clienteId);
         })->all();

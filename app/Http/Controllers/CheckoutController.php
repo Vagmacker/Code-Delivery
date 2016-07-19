@@ -53,7 +53,7 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        $clienteId = $this->userRepository->find(Auth::user()->id)->cliente->id;
+        $clienteId = $this->userRepository->skipPresenter()->find(Auth::user()->id)->cliente->id;
         $pedidos = $this->pedidosRepository->scopeQuery(function ($query) use ($clienteId){
             return $query->where('cliente_id', '=', $clienteId);
         })->paginate();
