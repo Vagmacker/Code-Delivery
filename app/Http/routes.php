@@ -45,6 +45,7 @@ Route::group(['middleware' => 'cors'], function (){
 
         Route::group(['prefix'=>'client', 'middleware'=>'oauth.checkrole:cliente', 'as'=>'cliente.'], function(){
             Route::resource('pedidos', 'Api\ClienteCheckoutController', ['except'=>['create','edit', 'destroy']]);
+            Route::get('products', 'Api\ClientProductController@index');
         });
 
         Route::group(['prefix'=>'deliveryman','middleware'=>'oauth.checkrole:entregador','as'=>'deliveryman.'], function(){

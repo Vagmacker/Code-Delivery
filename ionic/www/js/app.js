@@ -3,11 +3,11 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'angular-oauth2', 'starter.controllers'])
+angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource','starter.controllers', 'starter.services'])
 
-/*.constant('appConfig', {
+.constant('appConfig', {
   baserUrl: 'http://localhost:8000'
-})*/
+})
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -26,10 +26,10 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'starter.controllers'])
     }
   });
 })
-.config(function ($stateProvider, $urlRouterProvider,OAuthProvider, OAuthTokenProvider) {
+.config(function ($stateProvider, $urlRouterProvider,OAuthProvider, OAuthTokenProvider, appConfig) {
 
   OAuthProvider.configure({
-    baseUrl: 'http://localhost:8000',
+    baseUrl: appConfig.baserUrl,
     clientId: 'appid01',
     clientSecret: 'secret', // optional
     grantPath: '/oauth/access_token'
@@ -56,10 +56,29 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'starter.controllers'])
       controller: function ($scope, $http) {
         $http.get('http://localhost:8000/api/authenticated').then(function (data) {
           $scope.user = data.data;
-          console.log(data.data)
         });
       }
-  });
+    })
+    .state('client', {
+      abstract: true,
+      url: '/client',
+      template: '<ion-nav-view/>'
+    })
+    .state('client.checkout', {
+      url: '/checkout',
+      templateUrl: 'templates/client/checkout.html',
+      controller: 'ClientCheckoutController'
+    })
+    .state('client.checkout_detail', {
+      url: '/checkout/detail/:index',
+      templateUrl: 'templates/client/checkout_detail.html',
+      controller: 'ClientCheckoutDetailController'
+    })
+    .state('client.view_products', {
+      url: '/view_products',
+      templateUrl: 'templates/client/view_products.html',
+      controller: 'ClientViewProductController'
+    });
 
   //$urlRouterProvider.otherwise('/');
 });

@@ -2,6 +2,8 @@
 
 namespace CodeDelivery\Repositories;
 
+use CodeDelivery\Presenters\ProductPresenter;
+use CodeDelivery\Transformers\ProductTransformer;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodeDelivery\Repositories\ProdutosRepository;
@@ -20,6 +22,8 @@ class ProdutosRepositoryEloquent extends BaseRepository implements ProdutosRepos
      * @return string
      */
 
+    protected $skipPresenter = true;
+
     public function lists($column, $key = null)
     {
         return $this->model->lists('id', 'nome', 'preco');
@@ -30,13 +34,16 @@ class ProdutosRepositoryEloquent extends BaseRepository implements ProdutosRepos
         return Produtos::class;
     }
 
-    
-
     /**
      * Boot up the repository, pushing criteria
      */
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+    }
+
+    public function presenter()
+    {
+        return ProductPresenter::class;
     }
 }

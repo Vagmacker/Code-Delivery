@@ -1,25 +1,21 @@
 <?php
 
-namespace CodeDelivery\Http\Controllers;
+namespace CodeDelivery\Http\Controllers\Api;
 
-use CodeDelivery\Repositories\UserRepository;
-use Illuminate\Http\Request;
-
-use CodeDelivery\Http\Requests;
+use CodeDelivery\Repositories\ProdutosRepository;
 use CodeDelivery\Http\Controllers\Controller;
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
-class TesteController extends Controller
+class ClientProductController extends Controller
 {
     /**
-     * @var UserRepository
+     * @var ProdutosRepository
      */
-    private $userRepository;
+    private $produtosRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(ProdutosRepository $produtosRepository)
     {
 
-        $this->userRepository = $userRepository;
+        $this->produtosRepository = $produtosRepository;
     }
 
     /**
@@ -29,11 +25,9 @@ class TesteController extends Controller
      */
     public function index()
     {
-        $id = Authorizer::getResourceOwnerId();
-        $user = $this->userRepository->skipPresenter()->find($id);
+        $products = $this->produtosRepository->skipPresenter(false)->all();
 
-        return $user;
-
+        return $products;
     }
 
     /**
