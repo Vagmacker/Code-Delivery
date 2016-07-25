@@ -18,14 +18,15 @@ angular.module('starter.controllers', [])
                 });
         }
     }])
-    .controller('ClientCheckoutController', function($scope, $state, $cart, Order, $ionicLoading, $ionicPopup){
+    .controller('ClientCheckoutController', function($scope, $state, $cart, Order, $ionicLoading, $ionicPopup, Cupom){
         var cart = $cart.get();
+        $scope.cupom = cart.cupom;
         $scope.items = cart.items;
-        $scope.total = cart.total;
+        $scope.total = $cart.getTotalFinal();
         $scope.removeItem = function (i) {
             $cart.removeItem(i);
             $scope.items.splice(i,1);
-            $scope.total = cart.total;
+            $scope.total = $cart.getTotalFinal();
         };
         
         $scope.openProductDetail = function (i) {
@@ -38,17 +39,21 @@ angular.module('starter.controllers', [])
 
         $scope.save = function () {
 
-            var items = angular.copy($scope.items);
+            var o = {items: angular.copy($scope.items)};
 
-            angular.forEach(items, function (item) {
+            angular.forEach(o.items, function (item) {
                item.produto_id = item.id;
             });
+
+            if($scope.cupom.value){
+                o.cupom_code = $scope.cupom.code;
+            }
 
             $ionicLoading.show({
                 template: 'Carregando...'
             });
 
-            Order.save({id: null}, {items: items}, function (data) {
+            Order.save({id: null}, o, function (data) {
                $ionicLoading.hide();
                $state.go('client.checkout_successful');
             }, function (responseError) {
@@ -58,6 +63,35 @@ angular.module('starter.controllers', [])
                     template: 'Pedido não realizado<br>Tente novamente !'
                 })
             });
+        };
+
+        $scope.readBarCode = function () {
+            getValueCupom(5406);
+        };
+
+        $scope.removeCupom = function () {
+            $cart.removeCupom();
+            $scope.cupom = $cart.get().cupom;
+            $scope.total = $cart.getTotalFinal();
+        };
+
+        function getValueCupom(code) {
+            $ionicLoading.show({
+                template: 'Carregando ...'
+            });
+            
+            Cupom.get({code: code}, function (data) {
+                $cart.setCupom(data.data.code, data.data.value);
+                $scope.cupom = $cart.get().cupom;
+                $scope.total = $cart.getTotalFinal();
+                $ionicLoading.hide();
+            }, function (responseError) {
+                $ionicLoading.hide();
+                $ionicPopup.alert({
+                    title: 'Advertência',
+                    template: 'Cupom inválido'
+                });
+            })
         };
     })
     .controller('ClientCheckoutDetailController', function ($scope, $cart, $state, $stateParams) {
@@ -96,8 +130,9 @@ angular.module('starter.controllers', [])
     .controller('ClientCheckoutSuccessful', function ($scope, $cart, $state) {
 
         var cart = $cart.get();
+        $scope.cupom = cart.cupom;
         $scope.items = cart.items;
-        $scope.total = cart.total;
+        $scope.total = $cart.getTotalFinal();
 
         $cart.clear();
 

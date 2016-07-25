@@ -23,8 +23,7 @@ class CupomTransformer extends TransformerAbstract
         return [
             'id'         => (int) $model->id,
             'code'       => (float) $model->code,
-            /* place your other model properties here */
-
+            'value'      => (float) $model->value,
             'created_at' => $model->created_at,
             'updated_at' => $model->updated_at
         ];

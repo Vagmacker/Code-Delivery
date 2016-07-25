@@ -55,5 +55,7 @@ Route::group(['middleware' => 'cors'], function (){
 
         Route::resource('authenticated', 'TesteController');
 
+        Route::get('cupom/{code}', 'Api\CupomController@show');
+
     });
 });

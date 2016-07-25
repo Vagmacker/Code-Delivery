@@ -82,6 +82,7 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource','starter.cont
       controller: 'ClientViewProductController'
     })
     .state('client.checkout_successful', {
+      cache: false,
       url:'/checkout/successful',
       templateUrl: 'templates/client/checkout_successful.html',
       controller: 'ClientCheckoutSuccessful'
