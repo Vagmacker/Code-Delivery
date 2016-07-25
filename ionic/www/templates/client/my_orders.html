@@ -4,11 +4,13 @@
         <div class="list">
             <div class="item item-avatar item-icon-left" ng-repeat="order in orders">
                 <i class="icon ion-bag"></i>
-                <h2>Pedido: {{order.id}}</h2>
+                <h2>Total: R$ {{order.total}}</h2>
                 <p>Nº de itens: {{order.items.data.length}}</p>
-                <p>Data: {{order.created_at.date}}</p>
-                <p>Status: {{order.status}}</p>
-                <p>Total: R$ {{order.total}}</p>
+                <p>Data: {{order.created_at.date | limitTo: 10 | date: 'dd/MM/yyyy' }}</p>
+                Status: <span ng-if="order.status == 0">Pendente</span>
+                <span ng-if="order.status == 1">Entregue</span>
+                <span ng-if="order.status == 2">A Caminho</span>
+                <span ng-if="order.status == 3">Cancelado</span>
             </div>
         </div>
     </ion-content>

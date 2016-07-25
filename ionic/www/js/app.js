@@ -92,5 +92,5 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource','starter.cont
       controller: 'myOrdersController'
     });
 
-  //$urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/login');
 });
