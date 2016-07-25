@@ -23,19 +23,15 @@ angular.module('starter.services', [])
                 return this.getObject(key);
             },
             getObject: function (key) {
-                return JSON.parse($window.localStorage[key]) || null;
+                return JSON.parse($window.localStorage[key] || null);
             }
         }
     }])
     .service('$cart', ['$localStorage', function ($localStorage) {
         var key = 'cart', cartAux = $localStorage.getObject(key);
 
-        if(!cartAux){
-            this.clear();
-        }
-
         this.clear = function () {
-            this.initCart();
+            initCart();
         };
 
         this.get = function () {
@@ -92,5 +88,9 @@ angular.module('starter.services', [])
                 items: [],
                 total: 0
             });
+        }
+
+         if(!cartAux){
+            this.clear();
         }
     }]);
