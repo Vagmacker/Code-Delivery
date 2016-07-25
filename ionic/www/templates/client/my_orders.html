@@ -1,0 +1,15 @@
+<ion-view>
+    <ion-nav-title>Meus Pedidos</ion-nav-title>
+    <ion-content class="padding">
+        <div class="list">
+            <div class="item item-avatar item-icon-left" ng-repeat="order in orders">
+                <i class="icon ion-bag"></i>
+                <h2>Pedido: {{order.id}}</h2>
+                <p>Nº de itens: {{order.items.data.length}}</p>
+                <p>Data: {{order.created_at.date}}</p>
+                <p>Status: {{order.status}}</p>
+                <p>Total: R$ {{order.total}}</p>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

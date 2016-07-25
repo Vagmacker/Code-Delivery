@@ -23,7 +23,7 @@ angular.module('starter.services', [])
                 return this.getObject(key);
             },
             getObject: function (key) {
-                return JSON.parse($window.localStorage[key]) || null;
+                return JSON.parse($window.localStorage[key] || null);
             }
         }
     }])
@@ -31,11 +31,11 @@ angular.module('starter.services', [])
         var key = 'cart', cartAux = $localStorage.getObject(key);
 
         if(!cartAux){
-            this.clear();
+            initCart();
         }
 
         this.clear = function () {
-            this.initCart();
+            initCart();
         };
 
         this.get = function () {
@@ -73,6 +73,15 @@ angular.module('starter.services', [])
             $localStorage.setObject(key, cart);
         };
 
+        this.updateQtd = function (i, qtd) {
+            var cart = this.get(),
+                itemAux = cart.items[i];
+            itemAux.qtd = qtd;
+            itemAux.subtotal = calculateSubTotal(itemAux);
+            cart.total = getTotal(cart.items);
+            $localStorage.setObject(key, cart);
+        };
+
         function calculateSubTotal(item) {
             return item.preco * item.qtd;
         }
@@ -93,4 +102,18 @@ angular.module('starter.services', [])
                 total: 0
             });
         }
+    }])
+    .factory('Order', ['$resource','appConfig',function ($resource, appConfig) {
+        return $resource(appConfig.baserUrl + '/api/client/pedidos/:id', {id: '@id'}, {
+            query: {
+                isArray: false
+            }
+        });
+    }])
+    .factory('Orders', ['$resource', 'appConfig', function ($resource, appConfig) {
+        return $resource(appConfig.baserUrl + '/api/client/pedidos?include=items',{}, {
+            query:{
+                isArray: false
+            }
+        })
     }]);

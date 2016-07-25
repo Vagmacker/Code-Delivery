@@ -65,11 +65,13 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource','starter.cont
       template: '<ion-nav-view/>'
     })
     .state('client.checkout', {
+      cache: false,
       url: '/checkout',
       templateUrl: 'templates/client/checkout.html',
       controller: 'ClientCheckoutController'
     })
     .state('client.checkout_detail', {
+      cache: false,
       url: '/checkout/detail/:index',
       templateUrl: 'templates/client/checkout_detail.html',
       controller: 'ClientCheckoutDetailController'
@@ -78,6 +80,16 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource','starter.cont
       url: '/view_products',
       templateUrl: 'templates/client/view_products.html',
       controller: 'ClientViewProductController'
+    })
+    .state('client.checkout_successful', {
+      url:'/checkout/successful',
+      templateUrl: 'templates/client/checkout_successful.html',
+      controller: 'ClientCheckoutSuccessful'
+    })
+    .state('client.my_orders', {
+      url:'/my_orders',
+      templateUrl: 'templates/client/my_orders.html',
+      controller: 'myOrdersController'
     });
 
   //$urlRouterProvider.otherwise('/');
