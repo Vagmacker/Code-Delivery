@@ -26,11 +26,11 @@
                 <ion-delete-button class="icon ion-minus-circled" ng-click="removeItem($index)"></ion-delete-button>
             </ion-item>
         </ion-list>
-        <button type="button" class="button button-balanced button-full" ng-click="readBarCode()" ng-disabled="cupom.value != null">
+        <button type="button" class="button button-balanced button-full" ng-click="readBarCode()" ng-disabled="cupom.value != null || total == 0">
             Adicionar cupom
         </button>
         <button type="button" class="button button-assertive button-full" ng-click="save()">
-            Salvar pedido
+            Finalizar pedido
         </button>
     </ion-content>
 </ion-view>

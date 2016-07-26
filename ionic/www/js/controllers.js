@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
 
         $scope.login = function () {
             OAuth.getAccessToken($scope.user).then(function (data) {
-                    $state.go('home');
+                    $state.go('client.checkout');
                 },
                 function (responseError) {
                     $ionicPopup.alert({
@@ -18,7 +18,7 @@ angular.module('starter.controllers', [])
                 });
         }
     }])
-    .controller('ClientCheckoutController', function($scope, $state, $cart, Order, $ionicLoading, $ionicPopup, Cupom){
+    .controller('ClientCheckoutController', function($scope, $state, $cart, Order, $ionicLoading, $ionicPopup, Cupom, $cordovaBarcodeScanner){
         var cart = $cart.get();
         $scope.cupom = cart.cupom;
         $scope.items = cart.items;
@@ -66,7 +66,14 @@ angular.module('starter.controllers', [])
         };
 
         $scope.readBarCode = function () {
-            getValueCupom(5406);
+            $cordovaBarcodeScanner.scan().then(function(barcodeData) {
+                    getValueCupom(barcodeData.text);
+                }, function(error) {
+                    $ionicPopup.alert({
+                        title: 'Advertência',
+                        template: 'Não foi possivel ler o cupom!<br> Tente novamente!'
+                    });
+                });
         };
 
         $scope.removeCupom = function () {
@@ -81,17 +88,29 @@ angular.module('starter.controllers', [])
             });
             
             Cupom.get({code: code}, function (data) {
-                $cart.setCupom(data.data.code, data.data.value);
-                $scope.cupom = $cart.get().cupom;
-                $scope.total = $cart.getTotalFinal();
-                $ionicLoading.hide();
+
+                var cupomCode = data.data.code, cupomValue = data.data.value;
+
+                if(cupomValue > $scope.total) {
+                    $cart.setCupom(cupomCode, cupomValue);
+                    $scope.cupom = $cart.get().cupom;
+                    $scope.total = $cart.getTotalFinal();
+                    $ionicLoading.hide();
+                } else {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({
+                        title: 'Advertência',
+                        template: 'Para utilizar este cupom você precisa adicionar mais itens ao seu pedido!'
+                    });
+                }
+
             }, function (responseError) {
                 $ionicLoading.hide();
                 $ionicPopup.alert({
                     title: 'Advertência',
                     template: 'Cupom inválido'
                 });
-            })
+            });
         };
     })
     .controller('ClientCheckoutDetailController', function ($scope, $cart, $state, $stateParams) {

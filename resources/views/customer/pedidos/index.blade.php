@@ -26,7 +26,7 @@
             </tbody>
         </table>
         <div>
-            <h5>Legenda: 1 - Entregue 2 - A Caminho 3 - Cancelado</h5>
+            <h5>Legenda: 0 - Pendente 1 - Entregue 2 - A Caminho 3 - Cancelado</h5>
         </div>
     </div>
     {!! $pedidos->render() !!}

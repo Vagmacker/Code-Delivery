@@ -3,10 +3,10 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource','starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource', 'ngCordova', 'starter.controllers', 'starter.services'])
 
 .constant('appConfig', {
-  baserUrl: 'http://localhost:8000'
+  baserUrl: 'http://192.168.0.109:8000'
 })
 
 .run(function($ionicPlatform) {
@@ -26,7 +26,7 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource','starter.cont
     }
   });
 })
-.config(function ($stateProvider, $urlRouterProvider,OAuthProvider, OAuthTokenProvider, appConfig) {
+.config(function ($stateProvider, $urlRouterProvider,OAuthProvider, OAuthTokenProvider, appConfig, $provide) {
 
   OAuthProvider.configure({
     baseUrl: appConfig.baserUrl,
@@ -94,4 +94,34 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource','starter.cont
     });
 
   $urlRouterProvider.otherwise('/login');
+
+  $provide.decorator('OAuthToken', ['$localStorage','$delegate',function($localStorage,$delegate){
+    Object.defineProperties($delegate,{
+      setToken: {
+        value: function(data){
+          return $localStorage.setObject('token',data);
+        },
+        enumerable: true,
+        configurable: true,
+        writable: true
+      },
+      getToken: {
+        value: function(){
+          return $localStorage.getObject('token');
+        },
+        enumerable: true,
+        configurable: true,
+        writable: true
+      },
+      removeToken: {
+        value: function(){
+          $localStorage.setObject('token',null);
+        },
+        enumerable: true,
+        configurable: true,
+        writable: true
+      }
+    });
+    return $delegate;
+  }]);
 });
