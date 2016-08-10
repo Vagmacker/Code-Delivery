@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-    .controller('loginController', ['$scope', 'OAuth', 'OAuthToken', '$state', '$ionicPopup', '$localStorage', '$http',  function ($scope, OAuth, $state, $ionicPopup, $q, $localStorage, $http, OAuthToken) {
+    .controller('loginController', ['$scope', 'OAuth', 'OAuthToken', '$state', '$ionicPopup', 'UserData', 'User', function ($scope, OAuth, $state, $ionicPopup, UserData, User, OAuthToken){
 
         $scope.user = {
             username:'',
@@ -11,14 +11,14 @@ angular.module('starter.controllers', [])
 
             promise
                 .then(function (data) {
-
+                    return User.authenticated({include: 'cliente'}).$promise;
+                    $state.go('home');
                 })
                 .then(function (data) {
-                    console.log(data.data);
-                    $localStorage.set('user', data.data);
+                    UserData.set(data.data);
                     $state.go('home');
                 }, function (responseError) {
-                    $localStorage.set('user', null);
+                    UserData.set(null);
                     OAuthToken.removeToken();
                     $ionicPopup.alert({
                         title: 'Advertência',
@@ -28,6 +28,13 @@ angular.module('starter.controllers', [])
                 });
         };
     }])
+    .controller('ClientMenuController', function ($ionicLoading, $state, $scope, UserData) {
+        $scope.user = UserData.get();
+
+        $scope.logout = function () {
+            $state.go('login');
+        }
+    })
     .controller('ClientCheckoutController', function($scope, $state, $cart, Order, $ionicLoading, $ionicPopup, Cupom, $cordovaBarcodeScanner){
         var cart = $cart.get();
         $scope.cupom = cart.cupom;

@@ -49,7 +49,12 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource', 'ngCordova',
       templateUrl: 'templates/login.html',
       controller: 'loginController'
     })
-
+    .state('logout', {
+      url: '/logout',
+      controller: function () {
+        
+      }
+    })
     .state('home', {
       url: '/home',
       templateUrl: 'templates/home.html',
@@ -61,8 +66,10 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource', 'ngCordova',
     })
     .state('client', {
       abstract: true,
+      cache: false,
       url: '/client',
-      template: '<ion-nav-view/>'
+      template: 'templates/client/menu.html',
+      controller: 'ClientMenuController'
     })
     .state('client.checkout', {
       cache: false,

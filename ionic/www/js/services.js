@@ -157,5 +157,24 @@ angular.module('starter.services', [])
         })
     }])
     .factory('User', ['$resource', 'appConfig', function ($resource, appConfig) {
-
+        return $resource(appConfig.baserUrl + '/api/authenticated',{}, {
+            query:{
+                isArray: false
+            },
+            authenticated:{
+                method: 'GET',
+                url: appConfig.baserUrl + '/api/authenticated'
+            }
+        });
+    }])
+    .factory('UserData', ['$localStorage', function ($localStorage) {
+            var key = 'user';
+            return {
+                set: function(value){
+                    return $localStorage.setObject(key,value);
+                },
+                get: function(){
+                    return $localStorage.getObject(key);
+                }
+            }
     }]);
