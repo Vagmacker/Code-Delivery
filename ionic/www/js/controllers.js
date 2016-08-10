@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-    .controller('loginController', ['$scope', 'OAuth', '$state', '$ionicPopup', function ($scope, OAuth, $state, $ionicPopup) {
+    .controller('loginController', ['$scope', 'OAuth', 'OAuthToken', '$state', '$ionicPopup', '$localStorage', '$http',  function ($scope, OAuth, $state, $ionicPopup, $q, $localStorage, $http, OAuthToken) {
 
         $scope.user = {
             username:'',
@@ -7,16 +7,26 @@ angular.module('starter.controllers', [])
         };
 
         $scope.login = function () {
-            OAuth.getAccessToken($scope.user).then(function (data) {
-                    $state.go('client.checkout');
-                },
-                function (responseError) {
+            var promise = OAuth.getAccessToken($scope.user);
+
+            promise
+                .then(function (data) {
+
+                })
+                .then(function (data) {
+                    console.log(data.data);
+                    $localStorage.set('user', data.data);
+                    $state.go('home');
+                }, function (responseError) {
+                    $localStorage.set('user', null);
+                    OAuthToken.removeToken();
                     $ionicPopup.alert({
                         title: 'Advertência',
-                        template: 'Login ou senha invalidos'
-                    })
+                        template: 'Login ou senha inválidos'
+                    });
+                    console.debug(responseError);
                 });
-        }
+        };
     }])
     .controller('ClientCheckoutController', function($scope, $state, $cart, Order, $ionicLoading, $ionicPopup, Cupom, $cordovaBarcodeScanner){
         var cart = $cart.get();
@@ -165,12 +175,40 @@ angular.module('starter.controllers', [])
             template: 'Carregando...'
         });
 
-        Orders.query({}, function (data) {
+        $scope.doRefresh = function () {
+            getOrders().then(function (data) {
+                $scope.orders = data.data;
+                $scope.$broadcast('scroll.refreshComplete');
+            }, function (dataError) {
+                $scope.$broadcast('scroll.refreshComplete');
+            });
+        };
+
+        function getOrders() {
+            return Orders.query({
+                orderBy: 'created_at',
+                sortedBy: 'desc'
+            }).$promise;
+        };
+
+        getOrders().then(function (data) {
             $scope.orders = data.data;
-            console.log(data.data);
             $ionicLoading.hide();
         }, function (dataError) {
             $ionicLoading.hide();
         });
 
+    })
+    .controller('DeliverymanMenuController', function ($state, $scope, $ionicLoading, UserData) {
+        $scope.user = UserData.get();
+
+        $scope.logout = function () {
+            $state.go('login');
+        }
+    })
+    .controller('DeliverymanOrderController', function () {
+        
+    })
+    .controller('DeliverymanViewOrderController', function () {
+        
     });

@@ -1,6 +1,7 @@
 <ion-view>
     <ion-nav-title>Meus Pedidos</ion-nav-title>
-    <ion-content class="padding">
+    <ion-content class="padding has-header">
+        <ion-refresher pulling-text="Puxe para atualizar" on-refresh="doRefresh()"></ion-refresher>
         <div class="list">
             <div class="item item-avatar item-icon-left" ng-repeat="order in orders">
                 <i class="icon ion-bag"></i>

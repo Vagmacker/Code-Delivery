@@ -24,8 +24,6 @@ class ClienteRepositoryEloquent extends BaseRepository implements ClienteReposit
         return Cliente::class;
     }
 
-    
-
     /**
      * Boot up the repository, pushing criteria
      */

@@ -155,4 +155,7 @@ angular.module('starter.services', [])
                isArray: false
            }
         })
+    }])
+    .factory('User', ['$resource', 'appConfig', function ($resource, appConfig) {
+
     }]);
