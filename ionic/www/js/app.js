@@ -45,6 +45,7 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource', 'ngCordova',
   $stateProvider
 
     .state('login', {
+      cache: false,
       url: '/login',
       templateUrl: 'templates/login.html',
       controller: 'loginController'
@@ -56,7 +57,7 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource', 'ngCordova',
       }
     })
     .state('home', {
-      url: '/home',
+      url: '/',
       templateUrl: 'templates/home.html',
       controller: function ($scope, $http) {
         $http.get('http://192.168.1.24:8000/api/authenticated').then(function (data) {
@@ -68,7 +69,7 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource', 'ngCordova',
       abstract: true,
       cache: false,
       url: '/client',
-      template: 'templates/client/menu.html',
+      templateUrl: 'templates/client/menu.html',
       controller: 'ClientMenuController'
     })
     .state('client.checkout', {

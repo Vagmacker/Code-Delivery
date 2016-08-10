@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-    .controller('loginController', ['$scope', 'OAuth', 'OAuthToken', '$state', '$ionicPopup', 'UserData', 'User', function ($scope, OAuth, $state, $ionicPopup, UserData, User, OAuthToken){
+    .controller('loginController', ['$scope', 'OAuth', 'OAuthToken', '$state', '$ionicPopup', 'UserData', 'User', function ($scope, OAuth, OAuthToken, $state, $ionicPopup, UserData, User){
 
         $scope.user = {
             username:'',
@@ -11,12 +11,11 @@ angular.module('starter.controllers', [])
 
             promise
                 .then(function (data) {
-                    return User.authenticated({include: 'cliente'}).$promise;
-                    $state.go('home');
+                    return User.authenticated({include: 'clientes'}).$promise;
                 })
                 .then(function (data) {
                     UserData.set(data.data);
-                    $state.go('home');
+                    $state.go('client.checkout');
                 }, function (responseError) {
                     UserData.set(null);
                     OAuthToken.removeToken();
@@ -28,7 +27,7 @@ angular.module('starter.controllers', [])
                 });
         };
     }])
-    .controller('ClientMenuController', function ($ionicLoading, $state, $scope, UserData) {
+    .controller('ClientMenuController', function ($state, $scope, UserData) {
         $scope.user = UserData.get();
 
         $scope.logout = function () {
