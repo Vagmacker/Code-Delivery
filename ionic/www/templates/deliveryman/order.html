@@ -1,0 +1,23 @@
+<ion-view>
+    <ion-nav-title> Meus Pedidos </ion-nav-title>
+    <ion-content class="padding has-header">
+        <ion-refresher pulling-text="Puxe para atualizar..." on-refresh="doRefresh()"></ion-refresher>
+        <ion-list>
+            <ion-item ng-repeat="p in orders" ng-click="openOrderDetail(p)">
+                <div class="row">
+                    <div class="col text-left">
+                        <i class="ion ion-android-time"> {{ p.created_at.date | limitTo: 10 | date: 'dd/MM/yyyy' }}</i>
+                        <br>
+                        Status: <span ng-if="p.status == 0"> Pendente </span>
+                        <span ng-if="p.status == 1"> A Caminho </span>
+                        <span ng-if="p.status == 2"> Entregue </span>
+                        <span ng-if="p.status == 3"> Cancelado </span>
+                    </div>
+                    <div class="col text-right">
+                        R<i class="ion ion-social-usd"> {{ p.total }}</i>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

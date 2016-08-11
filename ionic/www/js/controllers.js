@@ -212,9 +212,53 @@ angular.module('starter.controllers', [])
             $state.go('login');
         }
     })
-    .controller('DeliverymanOrderController', function () {
-        
+    .controller('DeliverymanOrderController', function ($scope, $state, $ionicLoading, DeliverymanOrder) {
+        $scope.orders = [];
+        $ionicLoading.show({
+            template: 'Carregando...'
+        });
+
+        $scope.doRefresh = function () {
+            getOrders().then(function (data) {
+                $scope.orders = data.data;
+                $scope.$broadcast('scroll.refreshComplete');
+            }, function (dataError) {
+                $scope.$broadcast('scroll.refreshComplete');
+            });
+        };
+
+        $scope.openOrderDetail = function (order) {
+          $state.go('deliveryman.view_order')
+        };
+
+        function getOrders() {
+            return DeliverymanOrder.query({
+                orderBy: 'created_at',
+                sortedBy: 'desc'
+            }).$promise;
+        };
+
+        getOrders().then(function (data) {
+            console.log(data.data);
+            $scope.orders = data.data;
+            $ionicLoading.hide();
+        }, function (dataError) {
+            $ionicLoading.hide();
+        });
     })
-    .controller('DeliverymanViewOrderController', function () {
-        
+    .controller('DeliverymanViewOrderController', function ($stateParams, $scope, DeliverymanOrder, $ionicLoading) {
+        $scope.orders = {};
+
+        $ionicLoading.show({
+           template: 'Carregando'
+        });
+
+        DeliverymanOrder.get({id: $stateParams.id, include: 'items, cupoms'}, function (data) {
+            console.log(data.data);
+            $scope.orders = data.data;
+            $ionicLoading.hide();
+
+        }, function (dataError) {
+            $ionicLoading.hide();
+        });
     });

@@ -177,4 +177,11 @@ angular.module('starter.services', [])
                     return $localStorage.getObject(key);
                 }
             }
+    }])
+    .factory('DeliverymanOrder', ['$resource', 'appConfig', function ($resource, appConfig) {
+        return $resource(appConfig.baserUrl + '/api/deliveryman/pedidos/:id',{id: '@id'}, {
+            query:{
+                isArray: false
+            }
+        });
     }]);
