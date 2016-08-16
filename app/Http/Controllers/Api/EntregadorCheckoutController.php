@@ -2,6 +2,8 @@
 
 namespace CodeDelivery\Http\Controllers\Api;
 
+use CodeDelivery\Models\Geo;
+use CodeDelivery\Repositories\GeoRepository;
 use CodeDelivery\Repositories\PedidosRepository;
 use CodeDelivery\Repositories\UserRepository;
 use CodeDelivery\Services\PedidosService;
@@ -27,17 +29,23 @@ class EntregadorCheckoutController extends Controller
     private $service;
 
     private $with = ['cliente', 'cupom', 'items'];
+    /**
+     * @var GeoRepository
+     */
+    private $geoRepository;
 
     public function __construct(
         PedidosRepository $pedidosRepository,
         UserRepository $userRepository,
-        PedidosService $service
+        PedidosService $service,
+        GeoRepository $geoRepository
     )
     {
 
         $this->pedidosRepository = $pedidosRepository;
         $this->userRepository = $userRepository;
         $this->service = $service;
+        $this->geoRepository = $geoRepository;
     }
 
     /**
@@ -110,12 +118,8 @@ class EntregadorCheckoutController extends Controller
     {
         $entregador = Authorizer::getResourceOwnerId();
         $status = $request->get('status');
-        $pedidos = $this->service->update($id, $entregador, $status);
-        if($pedidos) {
-            return $this->pedidosRepository->find($pedidos->id);
-        }
-        
-        abort(400, 'Pedido não encontrado');
+        return $this->service->update($id, $entregador, $status);
+
     }
 
     /**
@@ -124,8 +128,12 @@ class EntregadorCheckoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function geo(Request $request, $id, Geo $geo)
     {
-        //
+        $entregador = Authorizer::getResourceOwnerId();
+        $order = $this->pedidosRepository->getOwnerOrder($id, $entregador);
+        $geo->latitude = $request->get('latitude');
+        $geo->longitude = $request->get('longitude');
+        return $geo;
     }
 }

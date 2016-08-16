@@ -89,12 +89,13 @@ class PedidosService
     {
         $pedidos = $this->pedidosRepository->getOwnerOrder($id, $entregador);
 
-        if($pedidos instanceof Pedidos){
-            $pedidos->status = $status;
-            $pedidos->save();
-            return $pedidos;
+        $pedidos->status = $status;
+        if((int)($pedidos->status) == 1 && !$pedidos->hash) {
+            $pedidos->hash = md5((new \DateTime())->getTimestamp());
         }
-        return false;
+        $pedidos->save();
+        return $pedidos;
+
     }
 
 }

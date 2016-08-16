@@ -9,9 +9,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodeDelivery\Repositories\PedidosRepository;
 use CodeDelivery\Models\Pedidos;
-use Prettus\Repository\Presenter\ModelFractalPresenter;
 
-//use CodeDelivery\Validators\PedidosValidator;
 
 /**
  * Class PedidosRepositoryEloquent
@@ -23,24 +21,15 @@ class PedidosRepositoryEloquent extends BaseRepository implements PedidosReposit
 
     public function getOwnerOrder($id, $entregador)
     {
-        $result = $this->with(['items', 'cliente','cupom'])->findWhere([
-            'id'=>$id,
-            'entregador_id'=>$entregador
-        ]);
-        
-        if($result instanceof Collection){
-            $result = $result->first();
-        } else {
-            if (isset($result['data']) && count($result['data']) == 1){
-                $result = [
-                  'data'=> $result['data'][0]
-                ];
-            } else{
-                throw new ModelNotFoundException('Pedido Não existe');
-            }
+        $result = $this->model->where('id', $id)
+                              ->where('user_deliveryman_id', $entregador)
+                              ->first();
+
+        if ($result) {
+            return $this->parserResult($result);
         }
-        
-        return $result;
+
+        throw (new ModelNotFoundException('Order não existe'))->setModel($this->model());
     }
 
     /**

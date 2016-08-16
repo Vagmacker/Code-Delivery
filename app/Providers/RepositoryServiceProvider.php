@@ -52,5 +52,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'CodeDelivery\Repositories\CupomRepository',
             'CodeDelivery\Repositories\CupomRepositoryEloquent'
         );
+
+        $this->app->bind(
+            'CodeDelivery\Repositories\GeoRepository',
+            'CodeDelivery\Repositories\GeoRepositoryEloquent'
+        );
     }
 }

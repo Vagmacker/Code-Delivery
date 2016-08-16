@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b620ad9f849d5630bb2a4b5080b30dd6",
-    "content-hash": "04b734f7380ccabb03d5be325e866af2",
+    "hash": "094183566e31cf36c70473ce43284efd",
+    "content-hash": "f0a08465ba0ae240739ba6de192474b8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1475,6 +1475,50 @@
                 "shell"
             ],
             "time": "2016-03-09 05:03:14"
+        },
+        {
+            "name": "pusher/pusher-php-server",
+            "version": "v2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pusher/pusher-http-php.git",
+                "reference": "04535a46f8133fbeef656646846e1a4c43eeaa6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/04535a46f8133fbeef656646846e1a4c43eeaa6f",
+                "reference": "04535a46f8133fbeef656646846e1a4c43eeaa6f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for interacting with the Pusher REST API",
+            "homepage": "https://github.com/pusher/pusher-php-server",
+            "keywords": [
+                "events",
+                "php-pusher-server",
+                "publish",
+                "pusher",
+                "realtime",
+                "rest",
+                "trigger"
+            ],
+            "time": "2016-08-15 16:34:36"
         },
         {
             "name": "swiftmailer/swiftmailer",
