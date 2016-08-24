@@ -179,9 +179,18 @@ angular.module('starter.services', [])
             }
     }])
     .factory('DeliverymanOrder', ['$resource', 'appConfig', function ($resource, appConfig) {
-        return $resource(appConfig.baserUrl + '/api/deliveryman/pedidos/:id',{id: '@id'}, {
+        var url = appConfig.baserUrl + '/api/deliveryman/pedidos/:id';
+        return $resource(url,{id: '@id'}, {
             query:{
                 isArray: false
+            },
+            updateStatus: {
+                method: 'PATCH',
+                url: url + '/update-status'
+            },
+            geo:{
+                method: 'POST',
+                url: url + '/geo'
             }
         });
     }]);

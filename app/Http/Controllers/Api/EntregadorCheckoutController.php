@@ -2,6 +2,7 @@
 
 namespace CodeDelivery\Http\Controllers\Api;
 
+use CodeDelivery\Events\GetLocationDeliveryman;
 use CodeDelivery\Models\Geo;
 use CodeDelivery\Repositories\GeoRepository;
 use CodeDelivery\Repositories\PedidosRepository;
@@ -134,6 +135,8 @@ class EntregadorCheckoutController extends Controller
         $order = $this->pedidosRepository->getOwnerOrder($id, $entregador);
         $geo->latitude = $request->get('latitude');
         $geo->longitude = $request->get('longitude');
+        event(new GetLocationDeliveryman($geo, $order));
+
         return $geo;
     }
 }

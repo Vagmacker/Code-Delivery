@@ -246,7 +246,9 @@ angular.module('starter.controllers', [])
             $ionicLoading.hide();
         });
     })
-    .controller('DeliverymanViewOrderController', function ($stateParams, $scope, DeliverymanOrder, $ionicLoading) {
+    .controller('DeliverymanViewOrderController', function ($stateParams, $scope, DeliverymanOrder, $ionicLoading, $cordovaGeolocation, $ionicPopup) {
+        var watch;
+
         $scope.orders = {};
 
         $ionicLoading.show({
@@ -261,4 +263,43 @@ angular.module('starter.controllers', [])
         }, function (dataError) {
             $ionicLoading.hide();
         });
+
+       $scope.goToDelivery = function () {
+
+        $ionicPopup.alert({
+            title: "Advertência",
+            template: 'Para parar interromper a localização aperte ok'
+        }).then(function () {
+           stopWatchPosition();
+        });
+
+        DeliverymanOrder.updateStatus({id: $stateParams.id}, {status: 1}, function () {
+           var  watchOptions = {
+               timeout: 3000,
+               enableHighAccuracy: false
+           };
+
+           watch = $cordovaGeolocation.watchPosition(watchOptions);
+
+           watch.then(null, function (responseError) {
+               //error
+           }, function (position) {
+                DeliverymanOrder.geo({id: $stateParams.id}, {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+
+                });
+           });
+        });
+
+       };
+
+       function stopWatchPosition(){
+
+           if(watch && typeof watch == 'object' && watch.hasOwnProperty('watchID')) {
+               $cordovaGeolocation.clearWatch(watch.watchId);
+
+           }
+
+       }
     });
