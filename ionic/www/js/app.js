@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource', 'ngCordova', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'uiGmapgoogle-maps', 'angular-oauth2', 'ngResource', 'ngCordova', 'starter.controllers', 'starter.services'])
 
 .constant('appConfig', {
   baserUrl: 'http://192.168.1.24:8000'
@@ -101,6 +101,12 @@ angular.module('starter', ['ionic', 'angular-oauth2', 'ngResource', 'ngCordova',
       templateUrl: 'templates/client/my_orders.html',
       controller: 'myOrdersController'
     })
+      .state('client.view_delivery', {
+        url:'/view_delivery/:id',
+        cache: false,
+        templateUrl: 'templates/client/view_delivery.html',
+        controller: 'ViewDeliveryController'
+      })
       .state('deliveryman',{
         abstract: true,
         cache: false,

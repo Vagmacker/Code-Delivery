@@ -175,7 +175,7 @@ angular.module('starter.controllers', [])
             $state.go('client.my_orders');
         };
     })
-    .controller('myOrdersController', function ($scope, Orders, $ionicLoading) {
+    .controller('myOrdersController', function ($scope, Orders, $ionicLoading, $ionicActionSheet) {
         $scope.orders = [];
         $ionicLoading.show({
             template: 'Carregando...'
@@ -187,6 +187,31 @@ angular.module('starter.controllers', [])
                 $scope.$broadcast('scroll.refreshComplete');
             }, function (dataError) {
                 $scope.$broadcast('scroll.refreshComplete');
+            });
+        };
+
+        $scope.showActionSheet = function (order) {
+            $ionicActionSheet.show({
+                buttons: [
+                    {text: 'Ver Detalhes'},
+                    {text: 'Ver Entrega'}
+                ],
+                titleText: 'O que fazer ?',
+                cancelText: 'Cancelar',
+
+                cancel: function () {
+                    //Cancelamento
+                },
+                buttonClicked: function (index) {
+                    switch (index){
+                        case 0:
+                            $state.go('client.my_orders', {id: order.id});
+                            break;
+                        case 1: $state.go('client.view_delivery', {id: order.id});
+                            break;
+                    }
+                }
+
             });
         };
 
@@ -203,6 +228,9 @@ angular.module('starter.controllers', [])
         }, function (dataError) {
             $ionicLoading.hide();
         });
+
+    })
+    .controller('ViewDeliveryController', function () {
 
     })
     .controller('DeliverymanMenuController', function ($state, $scope, $ionicLoading, UserData) {
@@ -228,8 +256,9 @@ angular.module('starter.controllers', [])
         };
 
         $scope.openOrderDetail = function (order) {
-          $state.go('deliveryman.view_order')
+          $state.go('deliveryman.view_order', {id:order.id})
         };
+
 
         function getOrders() {
             return DeliverymanOrder.query({
