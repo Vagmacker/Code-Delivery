@@ -230,8 +230,14 @@ angular.module('starter.controllers', [])
         });
 
     })
-    .controller('ViewDeliveryController', function () {
-
+    .controller('ViewDeliveryController', function ($scope) {
+        $scope.map = {
+            center: {
+                latitude:-16.358567,
+                longitude:-48.940822
+            },
+            zoom: 14
+        }
     })
     .controller('DeliverymanMenuController', function ($state, $scope, $ionicLoading, UserData) {
         $scope.user = UserData.get();
